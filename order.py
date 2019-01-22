@@ -1,7 +1,7 @@
 import pymysql,json
 from log_util import LoggerUtil
 def get_conn():
-    conn = pymysql.connect(host='mysql-cn-east-2-6f6aafba39094dac.public.jcloud.com', user='Bei_Database', password='Beibeisuper666', db='taobao',
+    conn = pymysql.connect(host='localhost', user='Bei_Database', password='Beibeisuper666', db='taobao',
                            charset='utf8')
     return conn
 class Order():
