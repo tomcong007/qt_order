@@ -5,6 +5,9 @@ class LoggerUtil():
     def get_log_file():
         filename ="淘宝拍单记录%s.txt" % (dt.now().strftime('%Y-%m-%d'))
         if not os.path.exists(filename):
+            if not os.path.exists("template.txt"):
+                with open("template.txt", "w", encoding="utf-8") as w:
+                    w.write("日志记录:\n")
             shutil.copy("template.txt",filename)
         return filename
     @staticmethod

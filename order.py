@@ -25,28 +25,33 @@ class Order():
             self.current_addr = None
             self.current_url = None
             self.sku_id = None
-    def mark_success(self,realPay):
+    def mark_success(self,realPay,orderId='',skuCount=0):
         conn = get_conn()
         cur = conn.cursor()
         orders = self.orders
         current_order = self.current_order
         order_details = current_order["list"]
         id = str(order_details[0]["id"])
-        cur.execute("update t_shop_order_detail set state =5,pay=%s where id=%s"%(realPay,id))
+        sql="update t_shop_order_detail set state =5,pay=%s"%realPay
+        if orderId is not None:
+            sql = "%s,taobao_order_id=%s"%(sql,orderId)
+        if skuCount !=0:
+            sql = "%s,sku_count =%s"%(sql,skuCount)
+        sql ="%s where id=%s"%(sql,id)
+        cur.execute(sql)
         l = len(order_details)
         if l==1:
-            cur.execute("update t_shop_order set state =3 where id =%s and state!=4"%str(current_order["id"]))
+            cur.execute("update t_shop_order set state =3 where id =%s"%str(current_order["id"]))
             del orders[0]
             if len(orders)==0:
                 self.pull()
             else:
                 self.orders = orders
-                self.pop()
         else:
             del order_details[0]
             current_order["list"] = order_details
             self.current_order = current_order
-            self.pop()
+        self.pop()
         conn.commit()
         conn.close()
     def mark_fail(self):
@@ -82,7 +87,7 @@ class Order():
     def pull(self):
         conn = get_conn()
         cur = conn.cursor()
-        cur.execute("select id,order_id,address_json from t_shop_order where state = 1 and taobao_user_name=%s limit 0,10",(self.username))
+        cur.execute("select id,order_id,address_json from t_shop_order where state = 1 and taobao_user_name=%s order by id limit 0,10",(self.username))
         rows = cur.fetchall()
         if rows is None or len(rows)==0:
             self.orders = None
@@ -107,4 +112,6 @@ if __name__ == '__main__':
     order = Order("猫七七021")
     order.pop()
     print(order.current_order["list"][0]["count"])
+    print(json.dumps(order.current_order, ensure_ascii=False, indent=2))
+    order.mark_success(20)
     print(json.dumps(order.current_order, ensure_ascii=False, indent=2))

@@ -35,13 +35,16 @@ class SkuParser():
             for j in range(len(lis)):
                 li = lis[j]
                 pv = li.attrs['data-value']
+                pv = pv.replace("'","")
+                pv = pv.strip()
                 if pv in result:
-                    sku_pos.append('%d-%d' % (i, j))
-                    LoggerUtil.write_file_log("成功选择第[%d]个大属性中的第[%d]个小属性"%(i,j))
+                    sku_pos.append((i,j,li.find_all("span")[0].get_text()))
                     break;
         if len(sku_pos)==0:
             return None
-        return ','.join(sku_pos)
+        if len(sku_pos)!=len(uls):
+            return 0
+        return sku_pos
     @staticmethod
     def get_sku_price(html):
         soup = BeautifulSoup(html, 'html.parser')
