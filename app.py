@@ -8,6 +8,17 @@ from sku_util import SkuParser
 from urllib.parse import unquote
 from datetime import datetime as dt
 address_url="https://member1.taobao.com/member/fresh/deliver_address.htm"
+class TextArea(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.box = QVBoxLayout(self)
+        self.b = QPlainTextEdit()
+        self.b.setWindowTitle("当前订单")
+        self.b.setStyleSheet("background-color:lightYellow;")
+        self.b.resize(1200, 900)
+        self.box.addWidget(self.b)
+        self.setWindowTitle("拍单日志")
+
 # 先来个窗口
 class window(QWidget):
     def __init__(self):
@@ -25,6 +36,9 @@ class window(QWidget):
         self.orderId = None
         #当前的淘宝实际拍单数量
         self.skuCount = None
+        #子窗体
+        self.dialog = TextArea()
+        self.dialog.show()
         #初始化当前订单数据
         self.btn_init_order = QPushButton('进入收货地址添加页面/重新初始化')
         self.btn_init_order.clicked.connect(self.init_order)
@@ -88,21 +102,21 @@ class window(QWidget):
         self.box.addWidget(self.btn_commit_order)
         self.box.addWidget(self.btn_go_order_page)
         self.box.addWidget(self.btn_get_order_id)
-        self.b = QPlainTextEdit()
-        self.b.setWindowTitle("当前订单")
-        self.b.setStyleSheet("background-color:lightYellow;")
-        self.b.resize(1200, 400)
+        #self.b = QPlainTextEdit()
+        #self.b.setWindowTitle("当前订单")
+        #self.b.setStyleSheet("background-color:lightYellow;")
+        #self.b.resize(1200, 400)
         self.box.addWidget(self.btn_mark_success)
         self.box.addWidget(self.btn_mark_fail)
         self.box.addWidget(self.web)  # 再放浏览器
-        self.box.addWidget(self.b)
+        #self.box.addWidget(self.b)
         self.box.addWidget(self.btn_delete)
         self.web.show()  # 最后让页面显示出来
         self.setWindowTitle("贝贝拍单工具")
         self.skuHtml=''
     def insertPlain(self,info):
         date_str = dt.now().strftime('%Y-%m-%d %H:%M:%S')
-        self.b.insertPlainText("[%s]:%s\n"%(date_str,info))
+        self.dialog.b.insertPlainText("[%s]:%s\n"%(date_str,info))
     #初始化订单信息,拿取订单数据
     def init_order(self):
         self.insertPlain("正在点击初始化按钮...")

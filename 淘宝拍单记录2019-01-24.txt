@@ -993,3 +993,23 @@
 [2019-01-24 16:48:21]:正在处理订单单号[601530312691897865]的贝贝数据
 [2019-01-24 16:48:22]:处理完毕,当前单号为[601463327965124165]
 [2019-01-24 16:48:22]:订单处理成功,继续处理下一个订单
+[2019-01-24 18:46:15]:淘宝拍单用户[猫七七021]登录成功
+[2019-01-24 18:46:15]:当前订单商品信息为:
+[2019-01-24 18:46:15]:{
+  "order_id": "601463327965124165",
+  "id": 91,
+  "address_json": "{\"overseaAddress\":false,\"phoneExtension\":\"\",\"phoneNumber\":\"\",\"phoneAreaCode\":\"\",\"divisionCode\":330682106,\"phoneInternationalCode\":\"86\",\"mobileCode\":\"86\",\"fullName\":\"简连平\",\"defaultDeliverAddress\":true,\"addressDetail\":\"浙江省 绍兴市 上虞区 浙江省上虞市丰惠镇书香名城一幢三单元205室\",\"mobile\":\"18358205527\"}",
+  "list": [
+    {
+      "id": 99,
+      "sku_id": 3856065425752,
+      "url": "https://item.taobao.com/item.htm?id=579461340489",
+      "count": 1
+    }
+  ]
+}
+[2019-01-24 18:46:15]:正在添加收货地址:
+{"overseaAddress":false,"phoneExtension":"","phoneNumber":"","phoneAreaCode":"","divisionCode":330682106,"phoneInternationalCode":"86","mobileCode":"86","fullName":"简连平","defaultDeliverAddress":true,"addressDetail":"浙江省 绍兴市 上虞区 浙江省上虞市丰惠镇书香名城一幢三单元205室","mobile":"18358205527"}
+
+[2019-01-24 18:46:37]:选择属性(0, 2, '束腰蓝色')
+[2019-01-24 18:46:37]:选择属性(1, 0, '大')
