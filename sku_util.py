@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from log_util import LoggerUtil
+import  requests
 class SkuParser():
     @staticmethod
     def parse(html, skuId):
