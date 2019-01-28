@@ -4,7 +4,17 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton
 from redis import StrictRedis
+from PyQt5.QtWebEngineCore import *
 rs = StrictRedis(host="114.67.85.93", port=10000, db=120,password="Summer001")
+class WebEngineUrlRequestInterceptor(QWebEngineUrlRequestInterceptor):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+    def interceptRequest(self, info):
+        requestUrl = str(info.requestUrl())
+        if requestUrl.find("mdskip.taobao.com/core/initItemDetail.htm")!=-1:
+            print(type(info))
+            print(info.requestUrl(), info.requestMethod(), info.resourceType(), info.firstPartyUrl())
+
 def randHeader(referer=None):
     head_connection = ['Keep-Alive', 'close']
     head_accept = ['text/html, application/xhtml+xml, */*']
@@ -84,6 +94,8 @@ class window(QWidget):
         self.btn_start = QPushButton('启动')
         self.btn_start.clicked.connect(self.start)
         self.web = MyWebEngineView()  # 创建浏览器组件对象
+        t = WebEngineUrlRequestInterceptor()
+        self.web.page().profile().setRequestInterceptor(t)
         self.web.resize(1200, 900)  # 设置大小
         self.web.load(QUrl(self.current_url))  # 打开页面
         self.box.addWidget(self.btn_close)
@@ -178,6 +190,8 @@ class MyWebEngineView(QWebEngineView):
         for key, value in self.cookies.items():  # 遍历字典
             cookie_str += (key + '=' + value + ';')  # 将键值对拿出来拼接一下
         return cookie_str  # 返回拼接好的字符串
+
+
 if __name__ == "__main__":
     """"""
     app = QApplication(sys.argv)
