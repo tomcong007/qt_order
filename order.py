@@ -1,7 +1,7 @@
 import pymysql,json
 from log_util import LoggerUtil
 def get_conn():
-    conn = pymysql.connect(host='mysql-cn-east-2-6f6aafba39094dac.public.jcloud.com', user='Bei_Database', password='Beibeisuper666', db='taobao',
+    conn = pymysql.connect(host='localhost', user='Bei_Database', password='Beibeisuper666', db='taobao',
                            charset='utf8')
     return conn
 class Order():
@@ -25,14 +25,14 @@ class Order():
             self.current_addr = None
             self.current_url = None
             self.sku_id = None
-    def mark_success(self,realPay,orderId='',skuCount=0):
+    def mark_success(self,realPay,orderId='',skuCount=1,totalPay=0,skuProp=""):
         conn = get_conn()
         cur = conn.cursor()
         orders = self.orders
         current_order = self.current_order
         order_details = current_order["list"]
         id = str(order_details[0]["id"])
-        sql="update t_shop_order_detail set state =5,pay=%s"%realPay
+        sql="update t_shop_order_detail set state =5,sku_price=%s,pay=%s,sku_pos='%s' "%(realPay,totalPay,skuProp)
         if orderId is not None:
             sql = "%s,taobao_order_id=%s"%(sql,orderId)
         if skuCount !=0:
